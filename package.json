@@ -21,5 +21,10 @@
     "cascading"
   ],
   "author": "Jon Packer <jon.packer@brik.no>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "assert-keys": "~1.0.0",
+    "cascading-service-config": "~1.0.0",
+    "optimist": "~0.6.0"
+  }
 }

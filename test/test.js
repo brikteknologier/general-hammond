@@ -1,42 +1,22 @@
-var hammond = require('../');
+process.argv = ['node', 'thing.js', '--config', './test/test-config.json'];
 var assert = require('assert');
+var hammond = require('../');
 describe('George Hammond', function() {
   it('should read a config file', function() {
-    process.argv = ['node', 'thing.js', '--config', './test/test-config.js'];
-    var config = hammond();
-    assert(config.serverSetting);
-  });
-  it('should read a custom named config file', function() {
-    process.argv = ['node', 'thing.js', '--potato', './test/test-config.js'];
-    var config = hammond('potato');
-    assert(config.serverSetting);
-  });
-  it('should read a config file from an env var', function() {
-    process.argv = ['node', 'thing.js'];
-    process.env.potato = './test/test-config.js';
-    var config = hammond('potato');
-    assert(config.serverSetting);
-  });
-  it('should read a config file direct from argv', function() {
-    process.argv = ['node', 'thing.js', '--config', '{"serverSetting":true}'];
-    process.env.potato = './test/test-config.js';
-    var config = hammond('config');
+    var config = require('../')('service');
     assert(config.serverSetting);
   });
   it('should throw if the config is missing required keys', function() {
-    process.argv = ['node', 'thing.js', '--config', './test/test-config.js'];
     assert.throws(function() {
-      var config = hammond().requires(['someCrazyNewThing']);
+      var config = hammond('service', ['someCrazyNewThing']);
     });
   });
   it('should inherit values', function() {
-    process.argv = ['node', 'thing.js', '--config', './test/test-config.js'];
-    var config = hammond();
+    var config = hammond('service');
     assert(config.globalSetting);
   });
   it('should get other services', function() {
-    process.argv = ['node', 'thing.js', '--config', './test/test-config.js'];
-    var config = hammond();
+    var config = hammond('service');
     assert(config.otherService == 'http://localhost:1234');
   });
 });

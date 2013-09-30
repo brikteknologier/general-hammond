@@ -1,0 +1,1 @@
+{ "globalSetting": 45, "service": { "port": 8000, "serverSetting": true }, "otherService": { "port": 1234 } }
