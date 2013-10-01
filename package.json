@@ -1,6 +1,6 @@
 {
   "name": "general-hammond",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "read, configure and enforce a configuration file.",
   "main": "george.js",
   "scripts": {
