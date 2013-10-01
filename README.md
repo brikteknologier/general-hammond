@@ -2,7 +2,7 @@
 
 Reads your [cascading service config](http://github.com/brikteknologier/cascading-service-config)
 file, [enforces](http://github.com/jonpacker/assert-keys) its content, and hands
-it to you for immediate utilisation.
+it to you for immediate utilisation. You have a go.
 
 ![Lieutenant General George Hammond](http://i.imgur.com/DbO3Vkl.jpg)
 
