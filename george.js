@@ -2,7 +2,7 @@ var csc = require('cascading-service-config');
 var assertkeys = require('assert-keys');
 var argv = require('optimist').argv;
 var read = require('fs').readFileSync;
-var join = require('path').join;
+var resolve = require('path').resolve;
 
 module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   if (Array.isArray(domain)) {
@@ -24,9 +24,10 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
 
   if (!config) {
     try {
-      config = JSON.parse(read(join(process.cwd(), filename)));
+      var filePath = resolve(process.cwd(), filename);
+      config = JSON.parse(read(filePath));
     } catch(e) {
-      throw new Error("Couldn't read configuration file '" + filename + "'");
+      throw new Error("Couldn't read configuration file '" + filePath + "'");
     }
   }
 
