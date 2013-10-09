@@ -3,6 +3,7 @@ var assertkeys = require('assert-keys');
 var argv = require('optimist').argv;
 var read = require('fs').readFileSync;
 var resolve = require('path').resolve;
+var getit = require('getit');
 
 module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   if (Array.isArray(domain)) {
@@ -17,10 +18,6 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
     throw new Error("No configuration specified! Please specify one with " +
                     "--config and try again");
   }
-
-  try {
-    config = JSON.parse(filename);
-  } catch(e) {}
 
   if (!config) {
     try {
