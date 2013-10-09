@@ -8,12 +8,13 @@ describe('George Hammond', function() {
   });
   it('should throw if the config is missing required keys', function() {
     assert.throws(function() {
-      var config = hammond('service', ['someCrazyNewThing']);
+      var config = hammond('service', ['someCrazyNewThing'])(function(cfg){});
     });
   });
   it('should inherit values', function() {
-    var config = hammond('service');
-    assert(config.globalSetting);
+    hammond('service')(function(config) {
+      assert(config.globalSetting);
+    });
   });
   it('should get other services', function() {
     var config = hammond('service');
