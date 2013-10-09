@@ -1,9 +1,9 @@
 var csc = require('cascading-service-config');
 var assertkeys = require('assert-keys');
 var argv = require('optimist').argv;
-var read = require('fs').readFileSync;
-var resolve = require('path').resolve;
 var getit = require('getit');
+var augur = require('augur');
+var assert = require('assert');
 
 module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   if (Array.isArray(domain)) {
@@ -11,7 +11,6 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
     domain = null;
   }
 
-  var config = null;
   var filename = argv.config;
 
   if (!filename) {
@@ -19,17 +18,16 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
                     "--config and try again");
   }
 
-  if (!config) {
-    try {
-      var filePath = resolve(process.cwd(), filename);
-      config = JSON.parse(read(filePath));
-    } catch(e) {
-      throw new Error("Couldn't read configuration file '" + filePath + "'");
-    }
-  }
+  var config = augur();
+  getit(filename, config);
 
-  if (domain != null) config = csc(config, domain);
-  if (keys != null) assertkeys(keys)(config);
-
-  return config; 
+  return function(callback) {
+    config(function(err, configstr) {
+      assert(!err, err);
+      var configobj = JSON.parse(configstr);
+      if (domain != null) configobj = csc(configobj, domain);
+      if (keys != null) assertkeys(keys)(configobj);
+      callback(configobj);
+    });
+  };
 }
