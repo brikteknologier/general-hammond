@@ -2,14 +2,23 @@ process.argv = ['node', 'thing.js', '--config', './test/test-config.json'];
 var assert = require('assert');
 var hammond = require('../');
 var http = require('http');
+var domain = require('domain');
 describe('George Hammond', function() {
-  it('should read a config file', function() {
-    var config = require('../')('service');
-    assert(config.serverSetting);
+  it('should read a config file', function(done) {
+    var config = require('../')('service')(function(config) {
+      assert(config.serverSetting);
+      done()
+    });
   });
-  it('should throw if the config is missing required keys', function() {
-    assert.throws(function() {
-      var config = hammond('service', ['someCrazyNewThing'])(function(cfg){});
+  it('should throw if the config is missing required keys', function(done) {
+    var d = domain.create();
+    d.on('error', function() {
+      done();
+    });
+    d.run(function() {
+      hammond('service', ['someCrazyNewThing'])(function(){
+        done(false);
+      });
     });
   });
   it('should inherit values', function(done) {

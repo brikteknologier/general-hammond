@@ -22,7 +22,7 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   getit(filename, config);
 
   return function(callback) {
-    config(function(err, configstr) {
+    config.then(function(err, configstr) {
       assert(!err, err);
       var configobj = JSON.parse(configstr);
       if (domain != null) configobj = csc(configobj, domain);
