@@ -19,3 +19,19 @@ npm i general-Hammond
   for more info
 * `keys` - required keys in the config. see [assert keys](http://github.com/jonpacker/assert-keys)
   for more info. this is run *after* the config is parsed as a CSC.
+
+returns a function that takes one argument, a callback. the callback is passed a
+single argument, the config. If the config is not found or the fails to parse,
+an error is thrown (it's assumed that you want the process to terminate at that
+point)
+
+## example
+
+```javascript
+require('general-hammond')('api-server', ['port'])(function(config) {
+  // at this point it is guaranteed that the config was found and had a `port`
+  // property set under the `api server` domain.
+  http.createServer().listen(config.port);
+});
+```
+
