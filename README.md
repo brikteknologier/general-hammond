@@ -35,3 +35,18 @@ require('general-hammond')('api-server', ['port'])(function(config) {
 });
 ```
 
+## config overrides
+
+You can override settings in the config by specifying the GH_CONFIG_OVERRIDE 
+environment variable. The value should be a stringified JSON object with values
+that override those in the config. The values are overlayed by using
+[deep-extend](https://github.com/unclechu/node-deep-extend).
+
+For example, given config.json `{"service": {"port": 2345, "name": "service!"}}`:
+
+```
+export GH_CONFIG_OVERRIDE='{"service":{"port":5678}}'
+node service --config config.json
+```
+
+The service receives this config: `{"service": {"port": 5678, "name": "service!"}}`
