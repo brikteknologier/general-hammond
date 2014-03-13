@@ -33,6 +33,13 @@ describe('George Hammond', function() {
       done()
     });
   });
+  it('should use env overrides', function(done) {
+    process.env.CONFIG_OVERRIDE = JSON.stringify({ service: { port: 8010 } })
+    hammond()(function(config) {
+      assert(config.service.port  == 8010);
+      done()
+    });
+  });
   it('should retrieve a config from an arbitrary location', function(done) {
     var server = http.createServer(function(req,res) {
       res.setHeader('Content-Type', 'application/json');
