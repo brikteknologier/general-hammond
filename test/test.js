@@ -12,12 +12,14 @@ describe('George Hammond', function() {
   });
   it('should throw if the config is missing required keys', function(done) {
     var d = domain.create();
+    var didError = false;
     d.on('error', function() {
+      didError = true;
       done();
     });
     d.run(function() {
       hammond('service', ['someCrazyNewThing'])(function(){
-        done(false);
+        assert(didError);
       });
     });
   });
@@ -34,9 +36,10 @@ describe('George Hammond', function() {
     });
   });
   it('should use env overrides', function(done) {
-    process.env.CONFIG_OVERRIDE = JSON.stringify({ service: { port: 8010 } })
+    process.env.GH_CONFIG_OVERRIDE = JSON.stringify({ service: { port: 8010 } })
     hammond()(function(config) {
       assert(config.service.port  == 8010);
+      delete process.env.GH_CONFIG_OVERRIDE;
       done()
     });
   });

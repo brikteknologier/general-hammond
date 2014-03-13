@@ -4,6 +4,7 @@ var argv = require('optimist').argv;
 var getit = require('getit');
 var augur = require('augur');
 var assert = require('assert');
+var deepExtend = require('deep-extend');
 
 module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   if (Array.isArray(domain)) {
@@ -18,6 +19,15 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
                     "--config and try again");
   }
 
+  var override;
+  if (process.env.GH_CONFIG_OVERRIDE) {
+    try { 
+      override = JSON.parse(process.env.GH_CONFIG_OVERRIDE);
+    } catch (e) {
+      throw new Error("GH_CONFIG_OVERRIDE was specified by couldn't be parsed as JSON - " + e);
+    }
+  }
+
   var config = augur();
   getit(filename, config);
 
@@ -25,6 +35,7 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
     config.then(function(err, configstr) {
       assert(!err, err);
       var configobj = JSON.parse(configstr);
+      if (override != null) deepExtend(configobj, override);
       if (domain != null) configobj = csc(configobj, domain);
       if (keys != null) assertkeys(keys)(configobj);
       callback(configobj);

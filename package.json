@@ -27,6 +27,7 @@
     "cascading-service-config": "~1.1.1",
     "optimist": "~0.6.0",
     "getit": "~0.3.3",
-    "augur": "~1.0.2"
+    "augur": "~1.0.2",
+    "deep-extend": "~0.2.8"
   }
 }
