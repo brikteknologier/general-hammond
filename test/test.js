@@ -2,6 +2,10 @@ var assert = require('assert');
 var http = require('http');
 var domain = require('domain');
 describe('George Hammond', function() {
+  beforeEach(function() {
+    delete require.cache[require.resolve('optimist')];
+    delete require.cache[require.resolve('../')];
+  });
   describe('read from command line arg', function() {
     var oldArgv = null;
     beforeEach(function() {
