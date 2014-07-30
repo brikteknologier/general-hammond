@@ -114,9 +114,11 @@ describe('George Hammond', function() {
     });
     it('should read a parsed raw config from an env var', function(done){ 
       var conf = require('fs').readFileSync('./test/test-config.json');
-      process.env.CONFIG = JSON.parse(conf);
+      global.config = JSON.parse(conf);
+      delete process.env.CONFIG;
       require('../')('service')(function(config) {
         assert(config.globalSetting);
+        delete global.config;
         done();
       });
     });

@@ -12,7 +12,7 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
     domain = null;
   }
 
-  var filename = argv.config || process.env.CONFIG;
+  var filename = argv.config || process.env.CONFIG || global.config;
 
   if (!filename) {
     throw new Error("No configuration specified! Please specify one with " +
