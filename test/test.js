@@ -22,11 +22,13 @@ describe('George Hammond', function() {
       var didError = false;
       d.on('error', function() {
         didError = true;
+        d.exit();
         done();
       });
       d.run(function() {
         require('../')('service', ['someCrazyNewThing'])(function(){
           assert(didError);
+          d.exit();
         });
       });
     });
