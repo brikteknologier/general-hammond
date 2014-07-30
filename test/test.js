@@ -1,5 +1,4 @@
 var assert = require('assert');
-var hammond = require('../');
 var http = require('http');
 var domain = require('domain');
 describe('George Hammond', function() {
@@ -26,26 +25,26 @@ describe('George Hammond', function() {
         done();
       });
       d.run(function() {
-        hammond('service', ['someCrazyNewThing'])(function(){
+        require('../')('service', ['someCrazyNewThing'])(function(){
           assert(didError);
         });
       });
     });
     it('should inherit values', function(done) {
-      hammond('service')(function(config) {
+      require('../')('service')(function(config) {
         assert(config.globalSetting);
         done()
       });
     });
     it('should get other services', function(done) {
-      hammond('service')(function(config) {
+      require('../')('service')(function(config) {
         assert(config.otherService == 'http://localhost:1234');
         done()
       });
     });
     it('should use env overrides', function(done) {
       process.env.GH_CONFIG_OVERRIDE = JSON.stringify({ service: { port: 8010 } })
-      hammond()(function(config) {
+      require('../')()(function(config) {
         assert(config.service.port  == 8010);
         delete process.env.GH_CONFIG_OVERRIDE;
         done()
@@ -59,7 +58,7 @@ describe('George Hammond', function() {
         confstream.pipe(res);
       }).listen(62853);
       process.argv = ['node', 'thing.js', '--config', 'http://localhost:62853'];
-      hammond('service')(function(config) {
+      require('../')('service')(function(config) {
         assert(config.globalSetting);
         done();
       });
@@ -80,7 +79,7 @@ describe('George Hammond', function() {
     });
     it('should use env overrides', function(done) {
       process.env.GH_CONFIG_OVERRIDE = JSON.stringify({ service: { port: 8010 } })
-      hammond()(function(config) {
+      require('../')()(function(config) {
         assert(config.service.port  == 8010);
         delete process.env.GH_CONFIG_OVERRIDE;
         done()
@@ -94,7 +93,7 @@ describe('George Hammond', function() {
         confstream.pipe(res);
       }).listen(62853);
       process.env.CONFIG  = 'http://localhost:62853';
-      hammond('service')(function(config) {
+      require('../')('service')(function(config) {
         assert(config.globalSetting);
         done();
       });
