@@ -62,7 +62,7 @@ describe('George Hammond', function() {
       process.argv = ['node', 'thing.js', '--config', 'http://localhost:62853'];
       require('../')('service')(function(config) {
         assert(config.globalSetting);
-        done();
+        server.close(done);
       });
     });
   });
@@ -97,7 +97,7 @@ describe('George Hammond', function() {
       process.env.CONFIG  = 'http://localhost:62853';
       require('../')('service')(function(config) {
         assert(config.globalSetting);
-        done();
+        server.close(done);
       });
     });
   });
