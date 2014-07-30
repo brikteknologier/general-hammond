@@ -108,5 +108,13 @@ describe('George Hammond', function() {
         done();
       });
     });
+    it('should read a parsed raw config from an env var', function(done){ 
+      var conf = require('fs').readFileSync('./test/test-config.json');
+      process.env.CONFIG = JSON.parse(conf);
+      require('../')('service')(function(config) {
+        assert(config.globalSetting);
+        done();
+      });
+    });
   });
 });
