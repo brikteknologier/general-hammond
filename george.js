@@ -29,12 +29,23 @@ module.exports = function LieutenantGeneralGeorgeHammond(domain, keys) {
   }
 
   var config = augur();
-  getit(filename, config);
+
+  if (typeof filename == 'string') {
+    try {
+      var parsedConfig = JSON.parse(filename);
+      if (typeof parsedConfig == 'object') config(null, parsedConfig);
+      else getit(filename, config);
+    } catch (e) {
+      getit(filename, config);
+    }
+  } else {
+    config(null, filename);
+  }
 
   return function(callback) {
-    config.then(function(err, configstr) {
+    config.then(function(err, configjson) {
       assert(!err, err);
-      var configobj = JSON.parse(configstr);
+      var configobj = typeof configjson == 'string' ? JSON.parse(configjson) : configjson;
       if (override != null) deepExtend(configobj, override);
       if (domain != null) configobj = csc(configobj, domain);
       if (keys != null) assertkeys(keys)(configobj);
