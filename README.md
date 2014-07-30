@@ -35,6 +35,16 @@ require('general-hammond')('api-server', ['port'])(function(config) {
 });
 ```
 
+## how to specify a config
+
+General Hammond will look in several places for the config:
+
+1. As a file or URL described by the `--config` command-line argument.
+2. As a file, URL or JSON string described by the "CONFIG" environment variable.
+3. As an object (not a JSON string, pre-CSC parsing), at process.env.CONFIG—this
+   is most useful for supplying a configuration during testing, or other use cases
+   the involve requiring the module the needs configuration.
+
 ## config overrides
 
 You can override settings in the config by specifying the GH_CONFIG_OVERRIDE 
